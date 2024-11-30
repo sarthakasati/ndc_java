@@ -1,0 +1,56 @@
+package com.ndc.engine;
+
+public class SQLBuilder {
+    private StringBuilder selectClause = new StringBuilder("SELECT ");
+    private StringBuilder fromClause = new StringBuilder(" FROM ");
+    private StringBuilder joinClause = new StringBuilder();
+    private StringBuilder whereClause = new StringBuilder(" WHERE ");
+    private StringBuilder orderByClause = new StringBuilder(" ORDER BY ");
+    private StringBuilder limitOffsetClause = new StringBuilder();
+
+    public SQLBuilder select(String column) {
+        if (selectClause.length() > 7) selectClause.append(", ");
+        selectClause.append(column);
+        return this;
+    }
+
+    public SQLBuilder from(String table) {
+        fromClause.append(table);
+        return this;
+    }
+
+    public SQLBuilder join(String table, String condition) {
+        joinClause.append(" JOIN ").append(table).append(" ON ").append(condition);
+        return this;
+    }
+
+    public SQLBuilder where(String condition) {
+        if (whereClause.length() > 7) whereClause.append(" AND ");
+        whereClause.append(condition);
+        return this;
+    }
+
+    public SQLBuilder orderBy(String column, String direction) {
+        if (orderByClause.length() > 10) orderByClause.append(", ");
+        orderByClause.append(column).append(" ").append(direction);
+        return this;
+    }
+
+    public SQLBuilder limit(int limit) {
+        limitOffsetClause.append(" LIMIT ").append(limit);
+        return this;
+    }
+
+    public SQLBuilder offset(int offset) {
+        limitOffsetClause.append(" OFFSET ").append(offset);
+        return this;
+    }
+
+    public String build() {
+        return selectClause.append(fromClause).append(joinClause)
+                .append(whereClause.length() > 7 ? whereClause : "")
+                .append(orderByClause.length() > 10 ? orderByClause : "")
+                .append(limitOffsetClause).toString();
+    }
+}
+

@@ -1,0 +1,7 @@
+spring.application.name=demo
+
+# Database configuration
+db.url=jdbc:mysql://localhost:3306/chinook?useSSL=false&serverTimezone=UTC
+db.username=root
+db.password=sadmin
+db.driver=com.mysql.cj.jdbc.Driver
